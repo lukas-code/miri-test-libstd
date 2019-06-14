@@ -36,4 +36,4 @@ notifications:
       - travis-miri@oli-obk.de
 branches:
   only:
-  - master
+  - debug
