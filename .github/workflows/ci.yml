@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches:
-      - 'master'
+      - 'macos'
   pull_request:
     branches:
       - 'master'
@@ -12,12 +12,9 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
-
-      - name: Install 'ts'
-        run: sudo apt-get -y install moreutils
 
       - name: Install correct toolchain
         shell: bash

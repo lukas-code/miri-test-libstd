@@ -9,21 +9,9 @@ cp -a $(rustc --print sysroot)/lib/rustlib/src/rust/ rust-src-patched
 # run the tests (some also without validation, to exercise those code paths in Miri)
 export RUST_SRC=rust-src-patched
 
+ls $(rustc --print sysroot)/lib/rustlib/src/rust/
+
 # libcore
 echo && echo "## Testing core (no validation, no Stacked Borrows, symbolic alignment)" && echo
 MIRIFLAGS="-Zmiri-disable-validation -Zmiri-disable-stacked-borrows -Zmiri-symbolic-alignment-check" \
-  ./run-test.sh core --all-targets -- --skip align 2>&1 | ts -i '%.s  '
-echo && echo "## Testing core (number validity)" && echo
-MIRIFLAGS="-Zmiri-check-number-validity" \
-  ./run-test.sh core --all-targets 2>&1 | ts -i '%.s  '
-echo && echo "## Testing core (doctests)" && echo
-MIRIFLAGS="-Zmiri-ignore-leaks -Zmiri-disable-isolation -Zmiri-check-number-validity" \
-  ./run-test.sh core --doc
-
-# liballoc
-echo && echo "## Testing alloc (symbolic alignment, number validity)" && echo
-MIRIFLAGS="-Zmiri-symbolic-alignment-check -Zmiri-check-number-validity" \
-  ./run-test.sh alloc --all-targets 2>&1 | ts -i '%.s  '
-echo && echo "## Testing alloc (doctests)" && echo
-MIRIFLAGS="-Zmiri-ignore-leaks -Zmiri-disable-isolation -Zmiri-check-number-validity" \
-  ./run-test.sh alloc --doc
+  ./run-test.sh core --all-targets -- --skip align 2>&1

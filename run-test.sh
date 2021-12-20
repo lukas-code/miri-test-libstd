@@ -28,6 +28,8 @@ if ! test -f "$RUST_SRC/Cargo.lock"; then
 fi
 if readlink -e . &>/dev/null; then
     RUST_SRC=$(readlink -e "$RUST_SRC")
+else
+    RUST_SRC=$(python -c 'import os, sys; print(os.path.realpath(sys.argv[1]))' "$RUST_SRC")
 fi
 
 # update symlink
